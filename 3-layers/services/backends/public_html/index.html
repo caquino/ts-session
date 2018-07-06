@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="refresh" content="1;url=/" />
+    <style type="text/css">
+      h2 {
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: large;
+        line-height: 0.5;
+      }
+    </style>
+  </head>
+  <body bgcolor="#<!--# echo var="hostname" -->">
+    <h2>Host: <!--# echo var="hostname" --></h2>
+    <!--# config timefmt="%H:%M:%S" -->
+    <h2>Date: <!--# echo var="date_local" --></h2>
+  </body>
+</html>
