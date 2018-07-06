@@ -2,14 +2,18 @@ version: "3.3"
 
 services:
   lb:
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./services/lb/nginx/:/etc/nginx/conf.d
     ports:
       - "80:80"
   
   frontend:
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./services/frontends/nginx/:/etc/nginx/conf.d
     ports:
@@ -19,6 +23,7 @@ services:
     image: nginx:latest
     volumes:
       - ./services/backends/nginx/:/etc/nginx/conf.d
+      - ./services/backends/public_html:/usr/share/nginx/html
     ports:
       - "80"
 
