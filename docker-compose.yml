@@ -5,5 +5,6 @@ services:
     image: nginx:latest
     volumes:
       - ./hcapp/public_html:/usr/share/nginx/html
+      - ./hcapp/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
