@@ -14,4 +14,18 @@ services:
     volumes:
       - ./hcprx/nginx:/etc/nginx/conf.d
     ports:
+      - "80"
+
+  prx:
+    image: nginx:latest
+    volumes:
+      - ./prx/nginx:/etc/nginx/conf.d
+    ports:
+      - "80"
+
+  cf:
+    image: nginx:latest
+    volumes:
+      - ./cf/nginx:/etc/nginx/conf.d
+    ports:
       - "80:80"
