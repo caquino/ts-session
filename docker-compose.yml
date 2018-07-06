@@ -7,4 +7,11 @@ services:
       - ./hcapp/public_html:/usr/share/nginx/html
       - ./hcapp/nginx:/etc/nginx/conf.d
     ports:
+      - "80"
+
+  hcprx:
+    image: nginx:latest
+    volumes:
+      - ./hcprx/nginx:/etc/nginx/conf.d
+    ports:
       - "80:80"
