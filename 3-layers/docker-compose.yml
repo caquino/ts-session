@@ -26,7 +26,6 @@ services:
       - "8600:8600"
       - "8600:8600/udp"
 
-
   registrator:
     image: gliderlabs/registrator:latest
     command: -internal consul://consul:8500
@@ -44,6 +43,8 @@ services:
       - ./services/lb/nginx/:/etc/nginx/conf.d
     ports:
       - "80:80"
+    depends_on:
+      - registrator
   
   frontend:
     build:
@@ -53,6 +54,11 @@ services:
       - ./services/frontends/nginx/:/etc/nginx/conf.d
     ports:
       - "80"
+    environment:
+      SERVICE_TAGS: nginx,edge,route-http
+      SERVICE_NAME: frontends
+    depends_on:
+      - registrator
 
   backend:
     image: nginx:latest
@@ -61,4 +67,9 @@ services:
       - ./services/backends/public_html:/usr/share/nginx/html
     ports:
       - "80"
+    environment:
+      SERVICE_TAGS: nginx,edge,route-http
+      SERVICE_NAME: backends
+    depends_on:
+      - registrator
 
