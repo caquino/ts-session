@@ -1,6 +1,41 @@
 version: "3.3"
 
 services:
+  consul:
+    image: consul:latest
+    command:
+      - agent
+      - -dev
+      - -server
+      - -bootstrap
+      - -recursor=1.1.1.1
+      - -client=0.0.0.0
+      - -bind={{ GetInterfaceIP "eth0" }}
+      - -advertise={{ GetInterfaceIP "eth0" }}
+      - -ui
+      - -log-level=err
+    environment:
+      CONSUL_LOCAL_CONFIG: "{\"disable_update_check\": true, \"dns_config\": { \"enable_truncate\": true, \"enable_additional_node_meta_txt\": false }}"
+      CONSUL_UI_BETA: "true"
+      SERVICE_TAGS: infrastructure
+      SERVICE_NAME: consul
+    ports:
+      - "8300:8300"
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    command: -internal consul://consul:8500
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    depends_on:
+      - consul
+
   lb:
     build:
       context: .
