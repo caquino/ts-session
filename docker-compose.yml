@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  hcapp:
+    image: nginx:latest
+    volumes:
+      - ./hcapp/public_html:/usr/share/nginx/html
+    ports:
+      - "80:80"
