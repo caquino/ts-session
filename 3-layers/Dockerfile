@@ -4,8 +4,6 @@ STOPSIGNAL SIGQUIT
 
 ADD certs/nginx-repo.crt /etc/ssl/nginx/
 ADD certs/nginx-repo.key /etc/ssl/nginx/
-ADD https://releases.hashicorp.com/consul-template/0.19.5/consul-template_0.19.5_linux_amd64.tgz /tmp/
-ADD https://releases.hashicorp.com/consul-template/0.19.5/consul-template_0.19.5_SHA256SUMS /tmp/
 
 RUN echo 'debconf debconf/frontend select Noninteractive' \
 | debconf-set-selections && \
@@ -24,13 +22,7 @@ apt-get install -y jq curl tcpdump ngrep git vim && \
 cd /opt && \
 git clone https://github.com/bsm/lua-resty-http && \
 ln -sf /dev/stdout /var/log/nginx/access.log && \
-ln -sf /dev/stderr /var/log/nginx/error.log && \
-sed -ie  "\$ainclude /etc/nginx/main.d/*.conf;" /etc/nginx/nginx.conf
-
-#RUN sed -i '/worker_processes.*$/a load_module modules/ngx_http_lua_module.so;' /etc/nginx/nginx.conf
-#RUN sed -i '/worker_processes.*$/a load_module modules/ndk_http_module.so;' /etc/nginx/nginx.conf
-
-ADD custom-binary/nginx /usr/sbin
+ln -sf /dev/stderr /var/log/nginx/error.log 
 
 EXPOSE 80
 
